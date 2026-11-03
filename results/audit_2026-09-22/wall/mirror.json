@@ -1,0 +1,36 @@
+{
+  "config": {
+    "number_of_particles": 25,
+    "box_size": 10.0,
+    "cutoff": 0.8,
+    "spring_constant": 15.0,
+    "equilibrium_distance": 0.8,
+    "initial_velocity_scale": 8.0,
+    "minimum_initial_separation": 0.5,
+    "dt": 0.01,
+    "steps": 500,
+    "gamma": 0.0,
+    "integrator": "velocity_verlet",
+    "dtype": "float64",
+    "seed": 0,
+    "frame_stride": 1
+  },
+  "max_relative_energy_drift": 0.00017203835387072196,
+  "frames": 501,
+  "provenance": {
+    "written_utc": "2026-09-22T12:40:00.177441+00:00",
+    "command_line": "tools/wall_audit.py --date 2026-09-22",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "initial_condition_sha256": "7554773090ad88e2f76059ac1af1af843394be150c35d87e242117a4aae9c915",
+    "config_sha256": "c9e35f733d58476929838e7e0ce01644fbbc040689c96895a328ba06fd79d7e5",
+    "git_commit": "cdcbcccdeaf5844e07f33df10ddb6cca4d0bd9e4",
+    "git_branch": "main",
+    "git_dirty": true,
+    "git_dirty_entries": 15,
+    "python": "3.14.0",
+    "numpy": "2.5.3",
+    "matplotlib": "3.11.2",
+    "pillow": "12.3.0",
+    "flask": "3.1.3"
+  }
+}

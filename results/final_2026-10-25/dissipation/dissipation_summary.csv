@@ -1,0 +1,5 @@
+gamma,steps,final_total_energy,final_mean_speed,relaxation_time,criterion
+0.0,500,2301.2198828537407,12.825276286348672,not_reached,relative_energy_change<3e-3 AND mean_speed<3e-2 over 20 steps
+0.05,500,1395.8754705471897,9.985939984149855,not_reached,relative_energy_change<3e-3 AND mean_speed<3e-2 over 20 steps
+0.1,500,846.7552526023051,7.774939972974766,not_reached,relative_energy_change<3e-3 AND mean_speed<3e-2 over 20 steps
+0.5,500,15.555250716885912,1.0548804343725082,not_reached,relative_energy_change<3e-3 AND mean_speed<3e-2 over 20 steps

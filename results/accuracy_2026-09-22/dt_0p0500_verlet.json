@@ -1,0 +1,36 @@
+{
+  "config": {
+    "number_of_particles": 50,
+    "box_size": 10.0,
+    "cutoff": 0.8,
+    "spring_constant": 15.0,
+    "equilibrium_distance": 0.8,
+    "initial_velocity_scale": 2.0,
+    "minimum_initial_separation": 0.5,
+    "dt": 0.05,
+    "steps": 100,
+    "gamma": 0.0,
+    "integrator": "velocity_verlet",
+    "dtype": "float64",
+    "seed": 0,
+    "frame_stride": 1
+  },
+  "max_relative_energy_drift": 0.0024081574175609305,
+  "frames": 101,
+  "provenance": {
+    "written_utc": "2026-09-22T18:44:21.144198+00:00",
+    "command_line": "C:\\Users\\ponug\\FOSC\\atomic-toy-model\\src\\simulation\\accuracy.py --config data/configs/accuracy_interacting.json --output-root results/accuracy_2026-09-22",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "initial_condition_sha256": "f306b85bd688fe3b577ba3a92eecb9beb833428302418aa56cbecbf0f6971b00",
+    "config_sha256": "2f9b83e4682a97f7f52ed2c1c5115181fcece7fd7080042ee912e61ab7b4e38a",
+    "git_commit": "f5b4adfe9c77e2faa32f38c53661dbd18d994243",
+    "git_branch": "main",
+    "git_dirty": true,
+    "git_dirty_entries": 5,
+    "python": "3.14.0",
+    "numpy": "2.5.3",
+    "matplotlib": "3.11.2",
+    "pillow": "12.3.0",
+    "flask": "3.1.3"
+  }
+}

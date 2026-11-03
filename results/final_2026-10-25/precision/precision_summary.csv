@@ -1,0 +1,3 @@
+dtype,position_bytes,pair_displacement_bytes,max_relative_energy_drift,final_position_difference_vs_float64,execution_median_seconds,timing_repeats,memory_ratio_vs_float32
+float32,300,7500,0.00017220762674696743,2.7710735266776325e-05,0.43244340003002435,5,1.0
+float64,600,15000,0.00017203835387072196,0.0,0.35738220007624477,5,2.0

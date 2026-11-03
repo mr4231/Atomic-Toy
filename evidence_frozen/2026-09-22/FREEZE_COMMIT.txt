@@ -1,0 +1,25 @@
+Freeze commit: e36a6d005f85aee7267d9def149d0bd9343a31b5
+Recorded for: evidence_frozen/2026-09-22
+Branch at record time: main (local), ahead of origin/main, which is still
+bb4407a106ec6a33c150ed13947c920976e38d9e
+
+That commit is the frozen state: the original working tree plus the snapshot in
+this directory and the Phase 0-1 tooling (tools/freeze_evidence.py,
+tools/check_provenance.py, docs/PROVENANCE.md, DECISION_LOG.md, the provenance
+helpers in src/utils/provenance.py, the dashboard write protection in
+web_server.py, and the tests tests/test_provenance.py, tests/test_dashboard.py).
+
+Independent verification after the freeze, recomputing every SHA-256 in
+MANIFEST.csv for both the live file and the frozen copy:
+
+    live results/ == frozen copy == manifest   40/40 artifacts identical
+
+Recovery examples:
+
+    git show e36a6d0:results/energy/baseline.json
+    git show e36a6d0:evidence_frozen/2026-09-22/MANIFEST.csv
+    git tag -l evidence-v1
+
+Warning: do not run `git checkout main` while standing on a freeze branch. Git
+removes from the working tree any file that is tracked on the current branch but
+absent from the target branch, which would delete this work.

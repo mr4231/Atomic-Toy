@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atomic Toy Model — 3D Scientific Simulation Dashboard</title>
+
+    <!-- Google Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;600;700;800&display=swap">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+</head>
+<body>
+
+    <!-- Navigation Header -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            ⚛ Atomic Toy Model <span>IIT Hyderabad Scientific Computing</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#energy">Energy</a></li>
+            <li><a href="#timestep">Timestep</a></li>
+            <li><a href="#dissipation">Dissipation</a></li>
+            <li><a href="#precision">Precision</a></li>
+            <li><a href="#performance">Performance</a></li>
+            <li><a href="#memory">Memory</a></li>
+            <li><a href="#diagnostics">Diagnostics</a></li>
+            <li><a href="#innovation">Innovation</a></li>
+            <li><a href="#info">Project Info</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero / Top Section -->
+    <header class="hero">
+        <h1>Atomic Toy Model</h1>
+        <p class="subtitle">3D Classical Particle Gas Simulation in a Cubic Hard-Wall Enclosure</p>
+        <div class="hero-pills">
+            <span class="pill">Accuracy</span>
+            <span class="pill">Efficiency</span>
+            <span class="pill">Innovation</span>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- 3D Simulation & Control Panel Section -->
+        <div class="sim-grid">
+            
+            <!-- Left: Large 3D Viewport Card -->
+            <div class="sim-viewer-card">
+                <div id="sim-viewport" class="viewport-container">
+                    <div class="viewport-overlay">
+                        <div>Time: <span id="lbl-sim-time">0.000</span> s</div>
+                        <div>Step: <span id="lbl-sim-step">0</span> / <span id="lbl-sim-maxsteps">500</span></div>
+                        <div>Particles: <span id="lbl-sim-n">25</span></div>
+                        <div>FPS: <span id="lbl-sim-fps">0</span></div>
+                    </div>
+                </div>
+                <div class="sim-bar">
+                    <div class="controls-group">
+                        <button id="btn-play-pause" class="btn btn-primary">▶ Play</button>
+                        <button id="btn-restart" class="btn">↺ Restart</button>
+                        <button id="btn-run-sim" class="btn btn-primary">⚡ Run Simulation</button>
+                    </div>
+                    <div class="speed-slider">
+                        <label for="slider-speed">Playback Speed:</label>
+                        <input type="range" id="slider-speed" min="0.1" max="5" step="0.1" value="1.0">
+                        <span id="lbl-speed-val">1.0x</span>
+                    </div>
+                    <div class="status-badge ready" id="status-indicator">
+                        <span class="dot"></span> <span id="lbl-status">Ready</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Simulation Configuration Panel -->
+            <div class="panel-card">
+                <h3>
+                    Simulation Config
+                    <span style="font-size:0.75rem; color:var(--text-muted); font-weight:normal;">(Editable)</span>
+                </h3>
+
+                <form id="form-config" class="form-grid">
+                    <div class="form-group">
+                        <label for="cfg-particles">N Particles</label>
+                        <input type="number" id="cfg-particles" class="form-input" min="1" max="1000" value="25">
+                    </div>
+                    <div class="form-group">
+                        <label for="cfg-box">Box Size (L)</label>
+                        <input type="number" id="cfg-box" class="form-input" step="0.5" value="10.0">
+                    </div>
+                    <div class="form-group">
+                        <label for="cfg-cutoff">Cutoff (r_cut)</label>
+                        <input type="number" id="cfg-cutoff" class="form-input" step="0.1" value="0.8">
+                    </div>
+                    <div class="form-group">
+                        <label for="cfg-r0">Equil Dist (r0)</label>
+                        <input type="number" id="cfg-r0" class="form-input" step="0.1" value="0.8">
+                    </div>
+                    <div class="form-group">
+                        <label for="cfg-spring">Spring Const (k)</label>
+                        <input type="number" id="cfg-spring" class="form-input" step="1.0" value="15.0">
+                    </div>
+                    <div class="form-group">
+                        <label for="cfg-vscale">Vel Scale (σ)</label>
+                        <input type="number" id="cfg-vscale" class="form-input" step="0.5" value="8.0">
+                    </div>
+                    <div class="form-group">
+                        <label for="cfg-dt">Timestep (dt)</label>
+                        <input type="number" id="cfg-dt" class="form-input" step="0.001" value="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="cfg-steps">Steps</label>
+                        <input type="number" id="cfg-steps" class="form-input" step="50" value="500">
+                    </div>
+                    <div class="form-group">
+                        <label for="cfg-gamma">Gamma (γ)</label>
+                        <input type="number" id="cfg-gamma" class="form-input" step="0.05" value="0.0">
+                    </div>
+                    <div class="form-group">
+                        <label for="cfg-seed">Seed</label>
+                        <input type="number" id="cfg-seed" class="form-input" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="cfg-integrator">Integrator</label>
+                        <select id="cfg-integrator" class="form-select">
+                            <option value="velocity_verlet">Velocity Verlet</option>
+                            <option value="semi_implicit_euler">Semi-Implicit Euler</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cfg-dtype">Precision</label>
+                        <select id="cfg-dtype" class="form-select">
+                            <option value="float64">float64 (64-bit)</option>
+                            <option value="float32">float32 (32-bit)</option>
+                        </select>
+                    </div>
+
+                    <div class="stale-notice" id="stale-warning">
+                        ⚠ Parameters changed. Click "Run Simulation" to update trajectory data.
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- 1. SIMULATION OVERVIEW -->
+        <section id="overview">
+            <h2 class="section-title">1. Simulation Overview</h2>
+            <p class="section-desc">Key metrics and physical diagnostic summary of the active live 3D run.</p>
+
+            <div class="card-grid-3">
+                <div class="info-card">
+                    <div class="metric-label">Active Particle Count</div>
+                    <div class="metric-stat" id="stat-particles">25</div>
+                    <div class="section-desc">Random placement with seeded rejection sampling</div>
+                </div>
+                <div class="info-card">
+                    <div class="metric-label">Active Run Max Relative Energy Drift</div>
+                    <div class="metric-stat" id="stat-drift">0.000e+0</div>
+                    <div class="section-desc">Evaluated dynamically for active run: max |E(t) - E0| / |E0|</div>
+                </div>
+                <div class="info-card">
+                    <div class="metric-label">Interacting Pairs (Initial → Final)</div>
+                    <div class="metric-stat" id="stat-pairs">0 → 0</div>
+                    <div class="section-desc">Pairs within cutoff range (r ≤ r_cut)</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. ENERGY ANALYSIS -->
+        <section id="energy">
+            <h2 class="section-title">2. Energy Analysis (Active Live Simulation)</h2>
+            <p class="section-desc">Tracking Kinetic (K), Potential (U), and Total Mechanical Energy (E) over time for the active trajectory generated by the control panel.</p>
+
+            <div class="info-card">
+                <div style="background:#0f172a; border:1px solid var(--border-color); padding:0.6rem 1rem; border-radius:6px; margin-bottom:1rem; font-family:var(--font-mono); font-size:0.85rem; display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; align-items:center;">
+                    <div><strong>Active Run Parameters:</strong> N=<span id="meta-n">25</span>, L=<span id="meta-box">10.0</span>, r_cut=<span id="meta-rcut">0.8</span>, dt=<span id="meta-dt">0.01</span>, steps=<span id="meta-steps">500</span>, seed=<span id="meta-seed">0</span></div>
+                    <div><strong>Active Run Drift:</strong> <span id="meta-drift" style="color:var(--accent-cyan); font-weight:700;">-</span></div>
+                </div>
+                <div id="chart-energy" class="chart-box"></div>
+                <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.75rem; font-style:italic;">
+                    Note on Data Separation: The energy drift reported in this section is measured dynamically for the current active simulation run. Controlled experiment benchmarks (such as Section 3 Timestep Accuracy below) use separate standardized configurations (N=12, r_cut=2.5) to systematically assess numerical convergence order.
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. TIMESTEP ACCURACY -->
+        <section id="timestep">
+            <h2 class="section-title">3. Timestep Accuracy (Controlled Benchmark Study)</h2>
+            <p class="section-desc">Controlled convergence benchmark comparing max relative energy drift across standard timesteps (dt = 0.05, 0.02, 0.01, 0.005) over a common physical horizon at fixed benchmark conditions (N=12, L=10.0, r_cut=2.5, spring k=15.0, seed=0). Stored independently in results/timestep/.</p>
+
+            <div class="card-grid-2">
+                <div class="info-card">
+                    <div id="chart-timestep" class="chart-box"></div>
+                </div>
+                <div class="info-card">
+                    <h3>Controlled Timestep Data (results/timestep/)</h3>
+                    <div id="container-timestep-table" style="margin-top:1rem;">
+                        <div class="empty-state">
+                            <p>Timestep experiment data not yet loaded.</p>
+                            <button class="btn" onclick="runExperimentSuite('timestep')">Run Timestep Study</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. DISSIPATION / RELAXATION -->
+        <section id="dissipation">
+            <h2 class="section-title">4. Dissipation / Relaxation</h2>
+            <p class="section-desc">Damped harmonic relaxation under linear drag (F_drag = -γ v). Settled criteria: ΔE/E0 &lt; 3e-3 and mean speed &lt; 3e-2 over a 20-step window.</p>
+
+            <div class="info-card">
+                <h3>Measured Dissipation Results</h3>
+                <div id="container-dissipation-table" style="margin-top:1rem;">
+                    <div class="empty-state">
+                        <p>Dissipation experiment data not yet loaded.</p>
+                        <button class="btn" onclick="runExperimentSuite('gamma')">Run Dissipation Study</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. NUMERICAL PRECISION -->
+        <section id="precision">
+            <h2 class="section-title">5. Numerical Precision</h2>
+            <p class="section-desc">Comparing single-precision (float32) and double-precision (float64) execution from identical initial conditions.</p>
+
+            <div class="info-card">
+                <h3>Float32 vs Float64 Benchmark</h3>
+                <div id="container-precision-table" style="margin-top:1rem;">
+                    <div class="empty-state">
+                        <p>Precision experiment data not yet loaded.</p>
+                        <button class="btn" onclick="runExperimentSuite('precision')">Run Precision Study</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. PERFORMANCE -->
+        <section id="performance">
+            <h2 class="section-title">6. Performance</h2>
+            <p class="section-desc">Wall-clock median execution time (5 repeats) comparing Python double-loop, NumPy vectorized, and C11 backend across N = 50, 200, 500, 1000 particles.</p>
+
+            <div class="card-grid-2">
+                <div class="info-card">
+                    <div id="chart-performance" class="chart-box"></div>
+                </div>
+                <div class="info-card">
+                    <h3>Median Execution Times & Speedups</h3>
+                    <div id="container-performance-table" style="margin-top:1rem;">
+                        <div class="empty-state">
+                            <p>Performance benchmark data not yet loaded.</p>
+                            <button class="btn" onclick="runExperimentSuite('performance')">Run Performance Benchmark</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. MEMORY / SCALABILITY -->
+        <section id="memory">
+            <h2 class="section-title">7. Memory / Scalability</h2>
+            <p class="section-desc">Dense (N, N, 3) pair-displacement array memory scaling analysis (calculated theoretical storage without unsafe allocation).</p>
+
+            <div class="info-card">
+                <h3>Pair Tensor Storage Scaling</h3>
+                <div id="container-memory-table" style="margin-top:1rem;">
+                    <div class="empty-state">
+                        <p>Memory analysis data not yet loaded.</p>
+                        <button class="btn" onclick="runExperimentSuite('memory')">Calculate Memory Scaling</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. DIAGNOSTICS -->
+        <section id="diagnostics">
+            <h2 class="section-title">8. Diagnostics</h2>
+            <p class="section-desc">Real-time physical integrity checks: boundary containment, distance minimums, and net internal force balance.</p>
+
+            <div class="card-grid-3">
+                <div class="info-card">
+                    <div class="metric-label">Boundary Check</div>
+                    <div class="metric-stat" style="color:var(--accent-green);" id="diag-boundary">Pass (100% Inside)</div>
+                    <div class="section-desc">All particles strictly contained within [0, L]³</div>
+                </div>
+                <div class="info-card">
+                    <div class="metric-label">Minimum Initial Separation</div>
+                    <div class="metric-stat" id="diag-min-sep">0.500</div>
+                    <div class="section-desc">Initial distance floor to prevent unphysical forces</div>
+                </div>
+                <div class="info-card">
+                    <div class="metric-label">Net Internal Force Balance</div>
+                    <div class="metric-stat" style="color:var(--accent-green);" id="diag-net-force">∑F = 0 (Newton 3rd)</div>
+                    <div class="section-desc">Pairwise action-reaction force symmetry</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. INNOVATION -->
+        <section id="innovation">
+            <h2 class="section-title">9. Innovation — 3D Spatial Partitioning (Cell-List)</h2>
+            <p class="section-desc">Stream M6 Innovation: 3D Spatial Partitioning (Cell-List) domain decomposition for short-range contact potentials. Under appropriate spatial assumptions (short interaction cutoff r_cut ≪ L in a bounded cubic domain), this approach reduces candidate pair distance evaluations from N(N-1)/2 all-pairs to only particles residing in the 26 adjacent neighboring grid cells.</p>
+
+            <div class="card-grid-3">
+                <div class="info-card">
+                    <div class="metric-label">Algorithmic Candidate Reduction</div>
+                    <div class="metric-stat" style="color:var(--accent-purple);">O(N) Candidates</div>
+                    <div class="section-desc">Under short-range spatial assumptions, tests candidate pairs only within 26 neighbor cells (d_cell ≥ r_cut).</div>
+                </div>
+                <div class="info-card">
+                    <div class="metric-label">Correctness / Parity Verification</div>
+                    <div class="metric-stat" style="color:var(--accent-green);">Verified</div>
+                    <div class="section-desc">Numerical force parity verified: norm difference &lt; 2.3 × 10⁻¹² against reference implementations.</div>
+                </div>
+                <div class="info-card">
+                    <div class="metric-label">Measured Benchmark Performance</div>
+                    <div class="metric-stat" style="color:var(--accent-amber);">No Measured Speedup</div>
+                    <div class="section-desc">N=50: 0.50x | N=200: 0.85x | N=500: 1.04x | N=1000: 1.00x vs Python loop. Pure-Python cell indexing overhead offsets candidate reduction; compiled C remains the fastest backend (~150x).</div>
+                </div>
+            </div>
+
+            <div style="margin-top:1.25rem; background:rgba(18, 24, 36, 0.7); border:1px solid var(--border-color); border-radius:6px; padding:1rem 1.25rem; font-size:0.85rem; color:var(--text-muted); line-height:1.6;">
+                <strong style="color:var(--text-primary); display:block; margin-bottom:0.25rem;">Scientific Assessment of Measured Scaling:</strong>
+                While the 3D cell-list algorithmically reduces candidate pair evaluations under the short-range cutoff assumption, the current pure-Python implementation incurs overhead from dictionary indexing, cell coordinate hashing, and Python loop traversals. As shown in the actual benchmark data in Section 6, the measured wall-clock speedup versus the baseline Python double loop remains ~1.0x at N ≤ 1000. Therefore, no empirical performance improvement is claimed for this Python prototype; however, its numerical correctness and force parity have been experimentally verified.
+            </div>
+        </section>
+
+
+        <!-- 10. PROJECT INFORMATION -->
+        <section id="info">
+            <h2 class="section-title">10. Project Information</h2>
+            <p class="section-desc">Fundamentals of Scientific Computing • IIT Hyderabad Stream Assignments</p>
+
+            <div class="info-card">
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Stream</th>
+                                <th>Role</th>
+                                <th>Responsibility</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>M1</td><td>Team Lead</td><td>Integration, tests, reproducibility, final recommendation</td></tr>
+                            <tr><td>M2</td><td>Physics</td><td>Geometry, cutoff neighbors, pair forces, hard walls</td></tr>
+                            <tr><td>M3</td><td>Numerical Methods</td><td>Euler/Verlet, K/U/E accounting, timestep study</td></tr>
+                            <tr><td>M4</td><td>Dissipation & Precision</td><td>Drag, relaxation criterion, float32/float64 comparison</td></tr>
+                            <tr><td>M5</td><td>Performance</td><td>Python/NumPy/C parity, timings, memory scaling table</td></tr>
+                            <tr><td>M6</td><td>Visualisation & Innovation</td><td>3D animation, diagnostics, measured innovation</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JS -->
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+wall_rule,steps_forward,steps_backward,dt,max_position_error,max_velocity_error,is_reversible
+clamp_flip_production,20,20,0.05,0.20000000000000107,0.0,False
+specular_fold,20,20,0.05,1.7763568394002505e-15,0.0,True

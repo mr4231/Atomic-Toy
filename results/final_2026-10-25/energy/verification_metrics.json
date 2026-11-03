@@ -1,0 +1,11 @@
+{
+  "initial_state": {
+    "distance_symmetry_max_abs": 0.0,
+    "distance_diagonal_max_abs": 0.0,
+    "self_neighbor_count": 0,
+    "net_internal_force_norm": 0.0,
+    "max_box_violation": 0.0
+  },
+  "trajectory_max_box_violation": 0.0,
+  "frames_checked": 501
+}

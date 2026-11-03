@@ -1,0 +1,36 @@
+{
+  "config": {
+    "number_of_particles": 25,
+    "box_size": 10.0,
+    "cutoff": 0.8,
+    "spring_constant": 15.0,
+    "equilibrium_distance": 0.8,
+    "initial_velocity_scale": 8.0,
+    "minimum_initial_separation": 0.5,
+    "dt": 0.01,
+    "steps": 500,
+    "gamma": 0.0,
+    "integrator": "velocity_verlet",
+    "dtype": "float32",
+    "seed": 0,
+    "frame_stride": 1
+  },
+  "max_relative_energy_drift": 0.00017220762674696743,
+  "frames": 501,
+  "provenance": {
+    "written_utc": "2026-10-26T03:33:06.978442+00:00",
+    "command_line": "C:\\Users\\ponug\\PycharmProjects\\AI-atomic-toy-model\\src\\simulation\\experiments.py all --output-root results/final_2026-10-25",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "initial_condition_sha256": "32493090d62d4e286e0ed2d9903dcf8ced7262bb77a07a69b406ddae439d45bb",
+    "config_sha256": "10c60146865e50140545bcd32d5a50aaba35839d14f84e4c331c5bdf8c086ba0",
+    "git_commit": "651b0ee17b94e4233ed358e4d0eb7d8d7470e9f4",
+    "git_branch": "main",
+    "git_dirty": true,
+    "git_dirty_entries": 13,
+    "python": "3.14.0",
+    "numpy": "2.5.3",
+    "matplotlib": "3.11.2",
+    "pillow": "12.3.0",
+    "flask": "3.1.3"
+  }
+}

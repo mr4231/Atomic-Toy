@@ -1,0 +1,16 @@
+{
+  "number_of_particles": 25,
+  "box_size": 10.0,
+  "cutoff": 0.8,
+  "spring_constant": 15.0,
+  "equilibrium_distance": 0.8,
+  "initial_velocity_scale": 8.0,
+  "minimum_initial_separation": 0.5,
+  "dt": 0.01,
+  "steps": 500,
+  "gamma": 0.0,
+  "integrator": "velocity_verlet",
+  "dtype": "float64",
+  "seed": 0,
+  "frame_stride": 1
+}

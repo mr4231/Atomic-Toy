@@ -1,0 +1,5 @@
+case,x0,v0,dt,free_flight_x,clamp_x,fold_x,clamp_vx,fold_vx,position_difference,velocity_sign_agrees
+"upper wall, one crossing",9.9,5.0,0.1,10.4,10.0,9.6,-5.0,-5.0,0.40000000000000036,True
+"lower wall, one crossing",0.2,-5.0,0.1,-0.3,0.0,0.3000000000000007,5.0,5.0,0.3000000000000007,True
+exactly two crossings,5.0,200.0,0.1,25.0,10.0,5.0,-200.0,200.0,5.0,False
+three crossings,3.0,300.0,0.1,33.0,10.0,7.0,-300.0,-300.0,3.0,True

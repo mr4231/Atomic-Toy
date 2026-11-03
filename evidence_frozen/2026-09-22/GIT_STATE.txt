@@ -1,0 +1,34 @@
+Git state at freeze time (before the freeze commit)
+HEAD: bb4407a106ec6a33c150ed13947c920976e38d9e
+origin/main: bb4407a106ec6a33c150ed13947c920976e38d9e
+branch: main
+tags: (none)
+
+git status --porcelain:
+M README.md
+ M requirements.txt
+ M results/performance/benchmark.csv
+ M src/physics/__init__.py
+ M src/simulation/benchmarks.py
+?? .idea/pyProjectModel.xml
+?? evidence_frozen/
+?? report/FINAL_REPORT.md
+?? report/compile_report.py
+?? src/physics/cell_list.py
+?? static/
+?? templates/
+?? tests/test_innovation.py
+?? tools/
+?? web_server.py
+
+untracked file hashes:
+c14bf1e23905db0f2b83cb0db597c23e2db987dfc8153f85fa37ad60db20de45  .idea/pyProjectModel.xml
+66bafeac1b1a0363dc38c1048ad8f1b77765f058b1944ec82d8d44535613da8b  evidence_frozen// (directory)
+0bcb3c969ea9a9fb0a6e91a511ab3009f5dbb5df4064ffc5ea9a96405dd90a82  report/FINAL_REPORT.md
+b3a985c0373848d8b6a6a0f1ec01ab9965945c5eea8f56aaca7341126ee04f0a  report/compile_report.py
+b920959d5bf7c6487c9210cfbba84d8b0716b4e7d784bf75af12e2403415dcda  src/physics/cell_list.py
+dd632e1dab4593d1eefd1d72306d53ff91e2edf924be6e51d59088a1849ef41b  static// (directory)
+e0ae9d5656581636d8ce633c7c884d8ca3b9b44ed39a54adcee0ba96bd22cffa  templates// (directory)
+52a53c40e82bea46240cc726cbbab42651e7b497f8d1b05eaad4cbd375d3cd82  tests/test_innovation.py
+b4320b039180777d36eb8b06dc945087c2caabd2846c37adf3b0d47164f1e5cb  tools// (directory)
+45a0e681ac8d6c1696803e489855c7381a8eae1337d008cec66c5c0beb14a8a0  web_server.py

@@ -1,0 +1,9 @@
+separation,reference_force_x,reference_force_magnitude,cell_list_force_x,cell_list_force_magnitude,vectorized_matches_loop,cell_list_matches_reference,max_abs_difference,reference_excludes_pair,cell_list_excludes_pair,reference_exclusion_threshold_distance,cell_list_effective_exclusion_threshold_distance
+1e-12,-11.999999999984999,11.999999999984999,0.0,0.0,True,False,11.999999999984999,False,True,1e-12,1e-06
+1e-11,-11.99999999985,11.99999999985,0.0,0.0,True,False,11.99999999985,False,True,1e-12,1e-06
+1e-10,-11.9999999985,11.9999999985,0.0,0.0,True,False,11.9999999985,False,True,1e-12,1e-06
+1e-09,-11.999999984999999,11.999999984999999,0.0,0.0,True,False,11.999999984999999,False,True,1e-12,1e-06
+1e-08,-11.999999850000002,11.999999850000002,0.0,0.0,True,False,11.999999850000002,False,True,1e-12,1e-06
+1e-07,-11.999998499999997,11.999998499999997,0.0,0.0,True,False,11.999998499999997,False,True,1e-12,1e-06
+1e-06,-11.999984999999999,11.999984999999999,-11.999984999999999,11.999984999999999,True,True,0.0,False,False,1e-12,1e-06
+1e-05,-11.999850000000006,11.999850000000006,-11.999850000000006,11.999850000000006,True,True,0.0,False,False,1e-12,1e-06

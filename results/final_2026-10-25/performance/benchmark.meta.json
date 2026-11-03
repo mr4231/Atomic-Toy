@@ -1,0 +1,49 @@
+{
+  "csv": "benchmark.csv",
+  "rows": 16,
+  "implementations": [
+    "c_optimized",
+    "cell_list_spatial",
+    "numpy_vectorized",
+    "python_loop"
+  ],
+  "particle_counts": [
+    50,
+    200,
+    500,
+    1000
+  ],
+  "protocol": {
+    "particle_counts": [
+      50,
+      200,
+      500,
+      1000
+    ],
+    "repeats": 5,
+    "warmup": 0,
+    "cutoff": 2.5,
+    "spring_constant": 15.0,
+    "equilibrium_distance": 0.8,
+    "seed": 123,
+    "box_size": 10.0
+  },
+  "provenance": {
+    "written_utc": "2026-10-26T03:33:21.843881+00:00",
+    "command_line": "C:\\Users\\ponug\\PycharmProjects\\AI-atomic-toy-model\\src\\simulation\\experiments.py all --output-root results/final_2026-10-25",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "initial_condition_sha256": null,
+    "config_sha256": null,
+    "git_commit": "651b0ee17b94e4233ed358e4d0eb7d8d7470e9f4",
+    "git_branch": "main",
+    "git_dirty": true,
+    "git_dirty_entries": 13,
+    "python": "3.14.0",
+    "numpy": "2.5.3",
+    "matplotlib": "3.11.2",
+    "pillow": "12.3.0",
+    "flask": "3.1.3",
+    "timing_reproducible": false,
+    "note": "wall-clock columns are machine dependent; parity norms and inputs are reproducible"
+  }
+}

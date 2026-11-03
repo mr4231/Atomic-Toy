@@ -1,0 +1,3 @@
+dtype,position_bytes,pair_displacement_bytes,max_relative_energy_drift,final_position_difference_vs_float64
+float32,144,1728,8.488818275509402e-05,6.518023250807071e-07
+float64,288,3456,8.057687300732237e-05,0.0
