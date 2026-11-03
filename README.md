@@ -106,6 +106,56 @@ notebooks/        exploratory work that imports, rather than duplicates, src/
 - The force on `i` is `-k(r_ij-r0)(r_i-r_j)/r_ij`; the loop and vectorized implementations must agree before timing.
 - `gamma=0` is the conservative control. With drag, `F_drag = -gamma v`.
 
-## Quality gates
+## Details of Members
 
-Do not call an output final until the test suite passes, a 12-particle/500-step animation is visible, Python/NumPy/C parity is confirmed, and the raw data behind every report claim is retained in `results/`.
+1. M1
+    
+2. M2
+    
+3. M3
+    
+4. M4
+    
+5. M5
+    
+6. M6
+    
+
+## Roles and Responsibilities
+
+1. **M1 – Team Leader, Integration and Architecture:** Responsible for overall project conceptualization, algorithm development for driver routines, integration of modules, debugging, and checking the accuracy and reliability of the simulation.
+    
+2. **M2 – 3D Physics and Force Calculations:** Responsible for designing and implementing the physical model, pairwise interaction forces, neighbor detection methods, and boundary conditions.
+    
+3. **M3 – Numerical Solvers and Integration:** Responsible for designing and implementing numerical solvers, studying integration methods, checking solver accuracy, and interpreting numerical results.
+    
+4. **M4 – Dissipation, Relaxation and Numerical Precision:** Responsible for studying dissipation and relaxation, investigating numerical precision, and developing test codes and scripts to evaluate the validity and limitations of the solvers.
+    
+5. **M5 – Performance and Optimization:** Responsible for performance analysis, benchmarking Python, NumPy and compiled C implementations, scalability studies, and memory analysis.
+    
+6. **M6 – Visualization and Diagnostics:** Responsible for 3D visualization, animation, plotting, simulation diagnostics, and coordination and evaluation of project innovations.
+    
+
+## Acknowledgment of AI Usage
+
+The team acknowledges the use of AI tools during the development of this project.
+
+**AI Tool Used:**
+
+- ChatGPT and cline – Used for code development and debugging.
+- Note that any file which is not .py or .c were completly made with the help of ai
+    
+
+AI-generated suggestions and code are reviewed and tested by the team. The team is responsible for verifying the correctness of the implementation, numerical results, and conclusions.
+
+## Files Shared
+
+The following files and materials are included as part of the project submission:
+
+1. **README.md:** Contains the project overview, setup instructions, execution instructions, and information about the project structure.
+    
+2. **Video Files:** Recorded project presentation and demonstration videos explaining the implementation, working, experiments, and results.
+    
+3. **Source Code, Testing Code and Visualization Code:** Includes the simulation source code, testing scripts, visualization and animation code, and generated movie files. These materials accompany the README or equivalent instructions so that the code can be executed and tested.
+    
+4. **Project Documentation and Final PDF:** The Word or LaTeX project document and final PDF report, containing relevant time snapshots, plots, algorithms, implementation details, experimental observations, and results.
