@@ -47,18 +47,15 @@ FIELDS = [
 
 
 def read_config(stem: Path) -> dict:
-    """Return the recorded configuration dictionary for one saved run."""
     return json.loads(stem.with_suffix(".json").read_text(encoding="utf-8"))["config"]
 
 
 def missing_metadata(recorded: dict) -> str:
-    """Name the configuration fields a legacy file does not record at all."""
     expected = set(SimulationConfig(number_of_particles=1).as_dict())
     return ",".join(sorted(expected - set(recorded)))
 
 
 def evaluate_run(stem: Path, tolerance: float) -> dict:
-    """Reproduce one stored run in memory and classify its provenance."""
     recorded = read_config(stem)
     arrays = np.load(stem.with_suffix(".npz"))
     stored_positions = arrays["positions"]
@@ -160,7 +157,6 @@ def evaluate_benchmark(path: Path, tolerance: float) -> list[dict]:
 
 
 def evaluate_memory(path: Path) -> list[dict]:
-    """Recompute the deterministic pair-array memory formula exactly."""
     with path.open(encoding="utf-8", newline="") as stream:
         recorded_rows = list(csv.DictReader(stream))
     rows: list[dict] = []
@@ -182,12 +178,10 @@ def evaluate_memory(path: Path) -> list[dict]:
 
 
 def discover_runs(root: Path) -> list[Path]:
-    """Return every stored trajectory stem under a results tree, sorted."""
     return sorted(path.with_suffix("") for path in root.glob("**/*.npz"))
 
 
 def check(root: Path, tolerance: float, skip_benchmark: bool) -> list[dict]:
-    """Classify every stored artifact found under ``root`` (read-only)."""
     rows = [evaluate_run(stem, tolerance) for stem in discover_runs(root)]
     for candidate in sorted(root.glob("**/pairwise_memory.csv")):
         rows.extend(evaluate_memory(candidate))
@@ -198,7 +192,6 @@ def check(root: Path, tolerance: float, skip_benchmark: bool) -> list[dict]:
 
 
 def write_report(rows: list[dict], destination: Path) -> Path:
-    """Write the machine-readable provenance table outside the evidence tree."""
     if "results" in destination.parts:
         raise SystemExit("refusing to write a provenance report inside results/")
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -210,7 +203,6 @@ def write_report(rows: list[dict], destination: Path) -> Path:
 
 
 def main() -> None:
-    """Run the provenance check and print a compact summary table."""
     import datetime as dt
 
     parser = argparse.ArgumentParser(description=__doc__)

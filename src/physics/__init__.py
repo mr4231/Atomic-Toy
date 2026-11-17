@@ -1,4 +1,4 @@
-"""Pair geometry, forces, energies, and wall boundaries."""
+"""initialising pair geometry, forces, energies, and wall boundaries."""
 
 from .boundaries import reflect_walls
 from .energy import kinetic_energy, potential_energy, total_energy

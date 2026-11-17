@@ -73,12 +73,6 @@ SHORT_INTEGRATOR = {
 
 
 def _least_common_interval(dts: Iterable[float]) -> float:
-    """Smallest interval of which every dt is an exact integer multiple.
-
-    Computed in exact rational arithmetic so float representation cannot pick a
-    grid that some case cannot hit: 0.05 is a multiple of 0.05 and 0.01 but NOT
-    of 0.02, so the official set shares the 0.1 grid, not the coarsest dt.
-    """
     fractions = [Fraction(dt).limit_denominator(10**9) for dt in dts]
     common = Fraction(
         math.lcm(*(f.numerator for f in fractions)),
@@ -88,7 +82,6 @@ def _least_common_interval(dts: Iterable[float]) -> float:
 
 
 def _steps_for_horizon(horizon: float, dt: float) -> int:
-    """Number of ``dt`` steps that reach ``horizon`` exactly (no silent rounding)."""
     steps = round(horizon / dt)
     if steps < 0 or abs(steps * dt - horizon) > 1e-9:
         raise ValueError(f"dt={dt} does not divide the horizon {horizon} exactly")
@@ -96,7 +89,6 @@ def _steps_for_horizon(horizon: float, dt: float) -> int:
 
 
 def _steps_per_sample(sample_interval: float, dt: float) -> int:
-    """Steps of ``dt`` between common sample times (``sample_interval`` must be a multiple)."""
     per_sample = round(sample_interval / dt)
     if per_sample < 1 or abs(per_sample * dt - sample_interval) > 1e-9:
         raise ValueError(
@@ -106,7 +98,6 @@ def _steps_per_sample(sample_interval: float, dt: float) -> int:
 
 
 def sample_times(horizon: float, sample_interval: float) -> np.ndarray:
-    """Common physical sample times: ``0, sample_interval, ..., horizon`` inclusive."""
     count = _steps_for_horizon(horizon, sample_interval)
     return np.arange(count + 1, dtype=float) * sample_interval
 
@@ -114,7 +105,6 @@ def sample_times(horizon: float, sample_interval: float) -> np.ndarray:
 def frame_indices_for_times(
     frame_times: np.ndarray, wanted_times: Iterable[float], tol: float = 1e-9
 ) -> np.ndarray:
-    """Indices of ``frame_times`` matching each wanted time exactly (within ``tol``)."""
     frame_times = np.asarray(frame_times, dtype=float)
     indices = []
     for wanted in np.asarray(list(wanted_times), dtype=float):
@@ -132,13 +122,11 @@ def frame_indices_for_times(
 def aligned_samples(
     result: Any, wanted_times: Iterable[float]
 ) -> tuple[np.ndarray, np.ndarray]:
-    """Recorded positions and their times at the common sample times."""
     indices = frame_indices_for_times(result.frame_times, wanted_times)
     return result.positions[indices], result.frame_times[indices]
 
 
 def normalized_error(candidate: np.ndarray, reference: np.ndarray, scale: float) -> float:
-    """``||candidate - reference||_2 / scale`` with the Frobenius norm over all components."""
     difference = np.asarray(candidate, dtype=float) - np.asarray(reference, dtype=float)
     return float(np.linalg.norm(difference.ravel()) / scale)
 
@@ -146,7 +134,6 @@ def normalized_error(candidate: np.ndarray, reference: np.ndarray, scale: float)
 def trajectory_position_error(
     case_result: Any, reference_result: Any, wanted_times: Iterable[float], scale: float
 ) -> float:
-    """Max over common sample times of the normalized position error against the reference."""
     case_positions, case_times = aligned_samples(case_result, wanted_times)
     reference_positions, reference_times = aligned_samples(reference_result, wanted_times)
     if not np.allclose(case_times, reference_times, atol=1e-9):
@@ -161,7 +148,6 @@ def trajectory_position_error(
 def _convergence_order(
     error_coarse: float, error_fine: float, dt_coarse: float, dt_fine: float
 ) -> float | None:
-    """``p = log(e_coarse/e_fine)/log(dt_coarse/dt_fine)``; ``None`` when not measurable."""
     if dt_coarse <= 0 or dt_fine <= 0 or dt_coarse == dt_fine:
         return None
     if error_coarse <= 0 or error_fine <= 0:
@@ -173,11 +159,6 @@ def _convergence_order(
 def measured_orders(
     dts: Iterable[float], errors: Iterable[float], integrator: str
 ) -> list[dict[str, Any]]:
-    """Adjacent-pair and overall convergence orders, sorted by descending dt.
-
-    The values are recorded exactly as measured; no convergence behaviour is
-    claimed by this module (DECISION_LOG.md D-10).
-    """
     pairs = sorted(zip(tuple(dts), tuple(errors)), key=lambda item: item[0], reverse=True)
     rows: list[dict[str, Any]] = []
     for (dt_coarse, error_coarse), (dt_fine, error_fine) in zip(pairs, pairs[1:]):
@@ -209,7 +190,6 @@ def measured_orders(
 
 
 def _write_csv(rows: list[dict[str, Any]], path: Path) -> Path:
-    """Write a summary CSV, refusing to touch frozen or already-written evidence."""
     assert_safe_output(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as stream:
@@ -238,13 +218,6 @@ def run_accuracy_study(
     initial_state: SimulationState | None = None,
     command: str | None = None,
 ) -> dict[str, Any]:
-    """Run the controlled accuracy study and write every artifact to a NEW output root.
-
-    All cases share one initial condition; the reference and its refinement use
-    the same IC with velocity Verlet at substantially smaller timesteps.  The
-    reference is not claimed to be exact; the manifest records how much it moves
-    under refinement.  Returns the manifest dictionary that was written.
-    """
     config.validate()
     if config.gamma != 0.0:
         raise ValueError(

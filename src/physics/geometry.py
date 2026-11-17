@@ -1,4 +1,4 @@
-"""Pairwise 3D geometry and cutoff-neighbor construction."""
+"""cutoff-neighbor."""
 
 from __future__ import annotations
 
@@ -9,15 +9,12 @@ import numpy as np
 
 @dataclass(frozen=True)
 class PairGeometry:
-    """Reusable pair arrays; displacement[i, j] means position_i - position_j."""
-
     displacement: np.ndarray
     distance: np.ndarray
     neighbors: np.ndarray
 
 
 def pairwise_geometry(positions: np.ndarray, cutoff: float, *, epsilon: float = 1e-12) -> PairGeometry:
-    """Build broadcast pair arrays and exclude self/overlapping neighbors safely."""
     if positions.ndim != 2 or positions.shape[1] != 3:
         raise ValueError("positions must have shape (N, 3)")
     if cutoff <= 0:

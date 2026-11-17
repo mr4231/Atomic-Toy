@@ -1,4 +1,3 @@
-"""Regression tests for integration, persistence, and experiment runners."""
 
 from __future__ import annotations
 

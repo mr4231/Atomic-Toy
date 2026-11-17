@@ -1,10 +1,3 @@
-"""Focused tests for the Gate-G3 accuracy-study machinery (src/simulation/accuracy.py).
-
-These tests run tiny studies into temporary directories only; the official G3
-experiment (data/configs/accuracy_interacting.json into a dated results root)
-has NOT been executed here.
-"""
-
 from __future__ import annotations
 
 import csv
@@ -30,7 +23,6 @@ from src.utils.provenance import config_fingerprint, initial_condition_fingerpri
 
 
 def _tiny_config(**overrides) -> SimulationConfig:
-    """A small gamma-free configuration with an exact horizon of 1.0."""
     values = dict(
         number_of_particles=4,
         box_size=10.0,

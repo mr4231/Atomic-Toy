@@ -20,13 +20,7 @@ def pair_forces_cell_list(
     *,
     epsilon: float = 1e-12,
 ) -> np.ndarray:
-    """Compute 3D harmonic pair forces using spatial grid cell partitioning in O(N) time.
 
-    Exhibits exact machine-precision force parity with the O(N^2) reference functions
-    for short-range cutoff potentials.  ``epsilon`` is a *distance* threshold
-    (matching the reference kernels and the C backend): pairs closer than
-    ``epsilon`` are ignored, i.e. the comparison is ``epsilon**2 < r**2``.
-    """
     if positions.ndim != 2 or positions.shape[1] != 3:
         raise ValueError("positions must have shape (N, 3)")
     if box_size <= 0 or cutoff <= 0:

@@ -79,7 +79,6 @@ def continuity_rows(spring_constant: float) -> list[dict]:
 
 
 def continuity_summary(rows: list[dict], spring_constant: float) -> list[dict]:
-    """Reduce the probe rows to per-candidate continuity deltas."""
     summary: list[dict] = []
     for cutoff, equilibrium in CANDIDATES:
         pair = [row for row in rows if row["cutoff"] == cutoff]

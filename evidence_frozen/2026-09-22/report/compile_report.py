@@ -1,9 +1,3 @@
-"""Automated Scientific Report Compiler for the IIT Hyderabad Atomic Toy Model Project.
-
-Fulfills all 7 sections of report/RESULTS_TEMPLATE.md directly from generated results/ artifacts
-without manufacturing or hardcoding any experimental values.
-"""
-
 from __future__ import annotations
 
 import csv

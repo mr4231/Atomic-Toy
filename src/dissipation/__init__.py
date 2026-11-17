@@ -1,4 +1,4 @@
-"""Damping and relaxation diagnostics."""
+"""damping and relaxation"""
 
 from .analysis import relaxation_time
 

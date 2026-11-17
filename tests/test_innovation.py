@@ -1,4 +1,3 @@
-"""Unit tests for Measured Innovation: 3D Cell-List Spatial Partitioning."""
 
 from __future__ import annotations
 

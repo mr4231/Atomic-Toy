@@ -1,4 +1,3 @@
-"""CLI runners for the required baseline, accuracy, damping, and precision evidence."""
 
 from __future__ import annotations
 
@@ -26,14 +25,12 @@ from src.utils.metrics import (
 
 
 def load_config(path: str | Path) -> SimulationConfig:
-    """Read one JSON configuration so every experiment records its choices."""
     return SimulationConfig(**json.loads(Path(path).read_text(encoding="utf-8")))
 
 
 def _write_csv(
     rows: list[dict[str, object]], path: Path, *, allow_protected_overwrite: bool = False
 ) -> Path:
-    """Write a summary CSV, refusing to touch frozen or already-written evidence."""
     assert_safe_output(path, allow_protected_overwrite=allow_protected_overwrite)
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as stream:
@@ -44,7 +41,6 @@ def _write_csv(
 
 
 def run_baseline(config: SimulationConfig, output_dir: str | Path) -> Path:
-    """Create a single reproducible 500-step baseline run for diagnostics/animation."""
     initial = create_random_state(config)
     result = run_simulation(config, initial)
     output = Path(output_dir) / "baseline"
@@ -77,12 +73,6 @@ def run_baseline(config: SimulationConfig, output_dir: str | Path) -> Path:
 
 
 def timestep_sweep(config: SimulationConfig, output_dir: str | Path, dts: tuple[float, ...] = (0.05, 0.02, 0.01, 0.005)) -> Path:
-    """Compare energy drift at the same physical horizon for multiple time steps.
-
-    Every case is integrated from the *same* initial state (the experiment protocol
-    requires one common initial condition) and the horizon is checked to be an exact
-    multiple of each timestep, so no case is silently shortened by rounding.
-    """
     rows: list[dict[str, object]] = []
     horizon = config.steps * config.dt
     initial = create_random_state(config)
@@ -114,7 +104,6 @@ def timestep_sweep(config: SimulationConfig, output_dir: str | Path, dts: tuple[
 
 
 def gamma_sweep(config: SimulationConfig, output_dir: str | Path, gammas: tuple[float, ...] = (0.0, 0.05, 0.1, 0.5)) -> Path:
-    """Compare conservative and dissipative cases with one objective settling metric."""
     initial = create_random_state(config)
     rows: list[dict[str, object]] = []
     for gamma in gammas:
@@ -147,7 +136,6 @@ def gamma_sweep(config: SimulationConfig, output_dir: str | Path, gammas: tuple[
 def precision_comparison(
     config: SimulationConfig, output_dir: str | Path, *, timing_repeats: int = 5
 ) -> Path:
-    """Run float32/float64 from identical initial values and measure their difference."""
     if timing_repeats < 5:
         raise ValueError("precision timing requires at least five repeats")
     source_state = create_random_state(replace(config, dtype="float64"))
@@ -189,7 +177,6 @@ def precision_comparison(
 
 
 def _timed_run(config: SimulationConfig, source_state, dtype: str) -> float:
-    """Time one dtype run from a fresh identical state without saving output."""
     state = type(source_state)(
         source_state.positions.astype(dtype), source_state.velocities.astype(dtype),
         source_state.masses.astype(dtype), source_state.step,
@@ -200,7 +187,6 @@ def _timed_run(config: SimulationConfig, source_state, dtype: str) -> float:
 
 
 def memory_table(output_dir: str | Path) -> Path:
-    """Calculate dense 3D pair-array memory safely instead of dangerous allocations."""
     rows = [
         {"n_particles": n, "dtype": dtype, "pair_displacement_bytes": pairwise_storage_bytes(n, dtype),
          "pair_displacement_mebibytes": pairwise_storage_bytes(n, dtype) / 1024**2}
@@ -210,7 +196,6 @@ def memory_table(output_dir: str | Path) -> Path:
 
 
 def performance_study(output_dir: str | Path) -> Path:
-    """Benchmark parity-gated force backends and generate the required scaling plot."""
     root = Path(output_dir)
     summary = save_benchmark_csv(
         benchmark_forces(), root / "benchmark.csv", meta=benchmark_protocol()
@@ -222,7 +207,6 @@ def performance_study(output_dir: str | Path) -> Path:
 
 
 def main() -> None:
-    """Run selected evidence workflows without changing source files."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("experiment", choices=("baseline", "timestep", "gamma", "precision", "memory", "performance", "all"))
     parser.add_argument("--config", default="data/default_config.json")

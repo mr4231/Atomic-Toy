@@ -108,17 +108,17 @@ notebooks/        exploratory work that imports, rather than duplicates, src/
 
 ## Details of Members
 
-1. M1
+1. M1  CO26BTECH11023    PONUGOTI ANISH 
     
-2. M2
+2. M2  CO26BTECH11012    JEERU VENKATA SAI RUPENDRANADH
     
-3. M3
+3. M3  CO26BTECH11011    JAVVAJI SRI LASYA 
     
-4. M4
+4. M4  CO26BTECH11014    KOPPOLU RIYA SAKSHARA 
     
-5. M5
-    
-6. M6
+5. M5  CO26BTECH11006    GOLLA SAI VENKAT 
+
+6. M6  CO26BTECH11018    MULUKA SRESHTA
     
 
 ## Roles and Responsibilities
@@ -138,12 +138,12 @@ notebooks/        exploratory work that imports, rather than duplicates, src/
 
 ## Acknowledgment of AI Usage
 
-The team acknowledges the use of AI tools during the development of this project.
+Our team acknowledges the use of AI tools during the development of this project.
 
 **AI Tool Used:**
 
 - ChatGPT and cline – Used for code development and debugging.
-- Note that any file which is not .py or .c were completly made with the help of ai
+- Note that any file which is not .py or .c were completly made with the help of A.I.
     
 
 AI-generated suggestions and code are reviewed and tested by the team. The team is responsible for verifying the correctness of the implementation, numerical results, and conclusions.

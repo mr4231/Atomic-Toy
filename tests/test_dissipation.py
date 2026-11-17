@@ -1,4 +1,3 @@
-"""Regression tests for the damping-aware velocity-Verlet update."""
 
 from __future__ import annotations
 
@@ -13,7 +12,6 @@ from src.utils.metrics import verification_metrics
 
 class DissipationTests(unittest.TestCase):
     def test_free_particle_velocity_matches_exact_linear_drag_decay(self) -> None:
-        """The split update must reproduce v(t) = v0 exp(-gamma*t/m)."""
         config = SimulationConfig(
             number_of_particles=1, box_size=100.0, cutoff=0.8,
             spring_constant=0.0, equilibrium_distance=0.8,

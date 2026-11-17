@@ -1,9 +1,3 @@
-"""Tests for the enforced output discipline around the frozen evidence tree.
-
-These tests are read-only with respect to ``results/``: they assert that refusals
-happen *before* any byte is written, and they verify the evidence tree is
-byte-identical afterwards.
-"""
 
 from __future__ import annotations
 
@@ -26,7 +20,6 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def evidence_snapshot() -> dict[str, str]:
-    """Return ``{relative path: sha256}`` for every file under results/."""
     snapshot: dict[str, str] = {}
     for path in sorted(CANONICAL_EVIDENCE_ROOT.rglob("*")):
         if path.is_file():

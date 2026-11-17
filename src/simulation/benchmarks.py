@@ -46,7 +46,6 @@ def benchmark_protocol() -> dict[str, object]:
 
 
 def load_c_force() -> Callable[[np.ndarray, float, float, float], np.ndarray]:
-    """Build/load the C kernel and expose it with the same argument convention."""
     from c_backend.build import build
 
     library_path = build("-O2")
@@ -81,7 +80,6 @@ def benchmark_forces(
     equilibrium_distance: float = DEFAULT_EQUILIBRIUM_DISTANCE,
     seed: int = DEFAULT_SEED, box_size: float = DEFAULT_BOX_SIZE,
 ) -> list[dict[str, float | int | str]]:
-    """Measure median kernel time on identical inputs and verify every backend first."""
     if repeats < 5:
         raise ValueError("the project timing protocol requires at least five repeats")
     
@@ -132,16 +130,6 @@ def save_benchmark_csv(
     rows: list[dict[str, float | int | str]], path: str | Path, *, meta: dict[str, object] | None = None,
     allow_protected_overwrite: bool = False,
 ) -> Path:
-    """Persist the exact timing data that supports a performance plot or claim.
-
-    The CSV columns are unchanged so that previously saved files stay comparable.
-    A sidecar ``<stem>.meta.json`` records the producing protocol, the row/implementation
-    inventory and the provenance block, because wall-clock timings are machine
-    dependent while the parity norms and inputs are not.
-
-    The write is refused when it would touch frozen evidence (see
-    ``src/utils/evidence_guard.py``).
-    """
     output = Path(path)
     sidecar = output.with_suffix(".meta.json")
     assert_safe_output(output, allow_protected_overwrite=allow_protected_overwrite)

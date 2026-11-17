@@ -1,5 +1,3 @@
-"""Objective measurements for dissipative simulation runs."""
-
 from __future__ import annotations
 
 import numpy as np
@@ -14,7 +12,7 @@ def relaxation_time(
     speed_threshold: float = 3e-2,
     window: int = 20,
 ) -> float | None:
-    """Return the first settled time, or None if no final-window criterion is met."""
+    """return the first settled time, or none if no final-window criterion is met."""
     if len(times) != len(total_energy) or len(times) != len(mean_speed):
         raise ValueError("times, total_energy, and mean_speed must have equal length")
     if window < 2 or len(times) < window:

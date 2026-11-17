@@ -1,8 +1,3 @@
-"""Dashboard tests: read-only evidence access and protection of the frozen results.
-
-The dashboard must never be able to overwrite ``results/``; these tests lock that
-down and also check that the endpoints return saved data rather than invented values.
-"""
 
 from __future__ import annotations
 
@@ -24,7 +19,6 @@ if web_server is not None:
 
 
 def directory_snapshot(root: Path) -> set[str]:
-    """Return the relative paths of every directory under ``root``."""
     if not root.exists():
         return set()
     return {path.relative_to(root).as_posix() for path in root.rglob("*") if path.is_dir()}

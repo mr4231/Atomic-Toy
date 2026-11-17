@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 def build(optimization: str = "-O2") -> Path:
-    """Compile a shared library used only after NumPy/C parity is verified."""
+
     directory = Path(__file__).resolve().parent
     compiler = next((name for name in ("gcc", "clang") if shutil.which(name)), None)
     if compiler is None:

@@ -69,7 +69,6 @@ class WallEventCounter:
 
 
 def regime_metrics(config, state) -> dict:
-    """Run one configuration in memory and return interaction/wall statistics."""
     counter = WallEventCounter().install()
     try:
         result = run_simulation(config, state)
@@ -112,7 +111,6 @@ def regime_metrics(config, state) -> dict:
 
 
 def pair_event_rate(config, state) -> dict:
-    """Count pair neighbourhood entry/exit events across the stored frames."""
     result = run_simulation(config, state)
     previous = None
     entries = exits = 0
@@ -143,7 +141,6 @@ def pair_event_rate(config, state) -> dict:
 
 
 def probe_config(shipping, case):
-    """A probe configuration that differs only in N and initial_velocity_scale."""
     fields = shipping.as_dict()
     for legacy in ("n_particles", "initial_velocity"):
         fields.pop(legacy, None)

@@ -1,4 +1,3 @@
-"""Baseline Euler and smoother velocity-Verlet integration methods."""
 
 from __future__ import annotations
 
@@ -15,7 +14,6 @@ ForceFunction = Callable[[np.ndarray, np.ndarray], np.ndarray]
 def semi_implicit_euler_step(
     state: SimulationState, dt: float, box_length: float, force_function: ForceFunction
 ) -> SimulationState:
-    """Advance one step by updating velocity before position (the handout baseline)."""
     force = force_function(state.positions, state.velocities)
     acceleration = force / state.masses[:, None]
     velocities = state.velocities + acceleration * dt
@@ -27,7 +25,6 @@ def semi_implicit_euler_step(
 def velocity_verlet_step(
     state: SimulationState, dt: float, box_length: float, force_function: ForceFunction
 ) -> SimulationState:
-    """Advance one step with two half velocity updates for better energy behavior."""
     force_old = force_function(state.positions, state.velocities)
     acceleration_old = force_old / state.masses[:, None]
     half_velocity = state.velocities + 0.5 * acceleration_old * dt

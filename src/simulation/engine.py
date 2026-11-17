@@ -1,4 +1,3 @@
-"""High-level simulation runner that records trajectories and diagnostics."""
 
 from __future__ import annotations
 
@@ -12,7 +11,6 @@ from src.physics.geometry import pairwise_geometry
 
 
 def create_random_state(config: SimulationConfig) -> SimulationState:
-    """Create overlap-safe random positions and independent random velocities at t=0."""
     config.validate()
     rng = np.random.default_rng(config.seed)
     dtype = config.numpy_dtype
@@ -43,7 +41,6 @@ def create_random_state(config: SimulationConfig) -> SimulationState:
 
 
 def initial_state_diagnostics(state: SimulationState, cutoff: float) -> dict[str, float | int]:
-    """Measure spacing, speed, and contact pairs without changing the state."""
     geometry = pairwise_geometry(state.positions, cutoff)
     unique_distances = geometry.distance[np.triu_indices(len(state.positions), k=1)]
     speeds = np.linalg.norm(state.velocities, axis=1)
@@ -60,7 +57,6 @@ def _select_stepper(config: SimulationConfig):
 
 
 def run_simulation(config: SimulationConfig, state: SimulationState | None = None) -> SimulationResult:
-    """Run one configuration and save energies at every step and positions by frame stride."""
     config.validate()
     current = create_random_state(config) if state is None else state.copy()
     current.validate()

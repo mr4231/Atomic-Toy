@@ -1,10 +1,3 @@
-"""Shared helpers for the Gate G2 measurement-only audit tools.
-
-Every audit writes into a *new* dated root (``results/audit_<date>/<name>/``) and
-refuses to overwrite an existing summary, so a re-run needs a new date.  Nothing
-here changes physics: the helpers only load the shipping configuration, name the
-output root and attach the provenance block.
-"""
 
 from __future__ import annotations
 
@@ -26,12 +19,10 @@ FROZEN_BASELINE = ROOT / "evidence_frozen" / "2026-09-22" / "results" / "energy"
 
 
 def load_shipping_config() -> SimulationConfig:
-    """Load ``data/default_config.json`` (read-only; the file is never edited)."""
     return SimulationConfig(**json.loads(SHIPPING_CONFIG_PATH.read_text(encoding="utf-8")))
 
 
 def audit_output_dir(name: str, date: str | None = None) -> Path:
-    """Return ``results/audit_<date>/<name>``, creating it if necessary."""
     day = date or dt.date.today().isoformat()
     target = ROOT / "results" / f"audit_{day}" / name
     target.mkdir(parents=True, exist_ok=True)
@@ -46,7 +37,6 @@ def _assert_new(path: Path) -> None:
 
 
 def write_json(path: Path, payload: dict) -> Path:
-    """Write one audit summary, refusing to replace an existing audit file."""
     _assert_new(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2, default=str), encoding="utf-8")
@@ -54,7 +44,6 @@ def write_json(path: Path, payload: dict) -> Path:
 
 
 def write_csv(path: Path, rows: list[dict], fieldnames: list[str] | None = None) -> Path:
-    """Write one audit table with the same no-overwrite rule."""
     _assert_new(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as stream:
@@ -65,12 +54,10 @@ def write_csv(path: Path, rows: list[dict], fieldnames: list[str] | None = None)
 
 
 def provenance(config=None, initial_state=None, extra: dict | None = None) -> dict:
-    """Provenance block (git state, versions, config and initial-condition hashes)."""
     return provenance_record(config=config, initial_state=initial_state, extra=extra)
 
 
 def frozen_baseline_ic() -> tuple[bool, float]:
-    """Compare the shipping initial condition with the frozen baseline (read-only)."""
     import numpy as np
 
     from src.simulation.engine import create_random_state

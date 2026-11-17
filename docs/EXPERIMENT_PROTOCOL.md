@@ -1,5 +1,6 @@
-# Experiment Protocol
+# Experiment Protocol for team members from me(Anish)
 
+Everyone follow these...
 Use the same seed, initial state, box, cutoff, spring parameters, and physical horizon for a comparison. Change only the stated variable.
 
 - Timestep: test `0.05`, `0.02`, `0.01`, and `0.005`; report maximum relative total-energy drift.

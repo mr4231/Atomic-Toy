@@ -1,4 +1,3 @@
-/* Optional C smoke test; compile with c_backend/pairforce.c when testing the C kernel. */
 #include "../c_backend/pairforce.h"
 
 #include <math.h>

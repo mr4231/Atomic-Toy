@@ -1,8 +1,4 @@
-"""Tests for the reproducibility metadata attached to newly written results.
 
-These tests protect the Phase 1 provenance contract: a saved artifact must be able
-to say which code, environment and initial state produced it.
-"""
 
 from __future__ import annotations
 
